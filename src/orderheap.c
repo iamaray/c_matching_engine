@@ -1,6 +1,6 @@
 #include "orderheap.h"
 
-OrderHeap *createMinHeap(int capacity)
+OrderHeap *createOrderHeap(int capacity, HeapType type)
 {
     OrderHeap *heap = (OrderHeap *)malloc(sizeof(OrderHeap));
     if (!heap)
@@ -11,6 +11,7 @@ OrderHeap *createMinHeap(int capacity)
 
     heap->capacity = capacity;
     heap->size = 0;
+    heap->type = type;
 
     heap->arr = (Order **)malloc(capacity * sizeof(Order *));
     if (!heap->arr)
@@ -31,23 +32,37 @@ void swap(Order **a, Order **b)
 
 void minHeapify(OrderHeap *heap, int idx)
 {
-    // heapify based on price and timestamp
     int left = 2 * idx + 1;
     int right = 2 * idx + 2;
     int smallest = idx;
 
-    if (left < heap->size &&
-        heap->arr[left]->price < heap->arr[smallest]->price &&
-        heap->arr[left]->timestamp < heap->arr[smallest]->timestamp)
+    if (heap->type == BUY_HEAP)
     {
-        smallest = left;
-    }
+        if (left < heap->size &&
+            compare_buy_orders(heap->arr[left], heap->arr[smallest]) < 0)
+        {
+            smallest = left;
+        }
 
-    if (right < heap->size &&
-        heap->arr[right]->price < heap->arr[smallest]->price &&
-        heap->arr[right]->timestamp < heap->arr[smallest]->timestamp)
+        if (right < heap->size &&
+            compare_buy_orders(heap->arr[right], heap->arr[smallest]) < 0)
+        {
+            smallest = right;
+        }
+    }
+    else
     {
-        smallest = right;
+        if (left < heap->size &&
+            compare_sell_orders(heap->arr[left], heap->arr[smallest]) < 0)
+        {
+            smallest = left;
+        }
+
+        if (right < heap->size &&
+            compare_sell_orders(heap->arr[right], heap->arr[smallest]) < 0)
+        {
+            smallest = right;
+        }
     }
 
     if (smallest != idx)
@@ -69,14 +84,25 @@ void insertMinHeap(OrderHeap *heap, Order *key)
     heap->arr[i] = key;
     heap->size++;
 
-    while (i != 0 && heap->arr[(i - 1) / 2]->price > heap->arr[i]->price)
+    if (heap->type == BUY_HEAP)
     {
-        swap(&heap->arr[i], &heap->arr[(i - 1) / 2]);
-        i = (i - 1) / 2;
+        while (i != 0 && compare_buy_orders(heap->arr[(i - 1) / 2], heap->arr[i]) > 0)
+        {
+            swap(&heap->arr[i], &heap->arr[(i - 1) / 2]);
+            i = (i - 1) / 2;
+        }
+    }
+    else
+    {
+        while (i != 0 && compare_sell_orders(heap->arr[(i - 1) / 2], heap->arr[i]) > 0)
+        {
+            swap(&heap->arr[i], &heap->arr[(i - 1) / 2]);
+            i = (i - 1) / 2;
+        }
     }
 }
 
-int extractMin(OrderHeap *heap)
+Order *extractMin(OrderHeap *heap)
 {
     if (heap->size <= 0)
         return NULL;
