@@ -1,9 +1,7 @@
 #include "ordermap.h"
 
-// Hash function to convert order_id to bucket index
 unsigned int hash_function(int key, int capacity)
 {
-    // Simple hash function for integers
     return (unsigned int)key % capacity;
 }
 

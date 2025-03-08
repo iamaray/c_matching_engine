@@ -30,7 +30,7 @@ void swap(Order **a, Order **b)
     *b = temp;
 }
 
-void minHeapify(OrderHeap *heap, int idx)
+void heapify(OrderHeap *heap, int idx)
 {
     int left = 2 * idx + 1;
     int right = 2 * idx + 2;
@@ -72,7 +72,7 @@ void minHeapify(OrderHeap *heap, int idx)
     }
 }
 
-void insertMinHeap(OrderHeap *heap, Order *key)
+void insertOrderHeap(OrderHeap *heap, Order *key)
 {
     if (heap->size == heap->capacity)
     {
@@ -102,7 +102,7 @@ void insertMinHeap(OrderHeap *heap, Order *key)
     }
 }
 
-Order *extractMin(OrderHeap *heap)
+Order *extractTop(OrderHeap *heap)
 {
     if (heap->size <= 0)
         return NULL;
@@ -117,12 +117,12 @@ Order *extractMin(OrderHeap *heap)
     heap->arr[0] = heap->arr[heap->size - 1];
     heap->size--;
 
-    minHeapify(heap, 0);
+    heapify(heap, 0);
 
     return root;
 }
 
-Order *getMin(OrderHeap *heap)
+Order *getTop(OrderHeap *heap)
 {
     if (heap->size <= 0)
         return NULL;
