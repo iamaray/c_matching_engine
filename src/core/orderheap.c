@@ -68,7 +68,7 @@ void heapify(OrderHeap *heap, int idx)
     if (smallest != idx)
     {
         swap(&heap->arr[idx], &heap->arr[smallest]);
-        minHeapify(heap, smallest);
+        heapify(heap, smallest);
     }
 }
 

@@ -55,7 +55,6 @@ void free_orderbook(OrderBook *orderbook)
         free(orderbook->sell_orders);
     }
 
-    // Note: The orders themselves should be freed separately
     free_ordermap(orderbook->order_map);
 
     if (orderbook->trade_history)
@@ -139,7 +138,7 @@ void add_order(OrderBook *orderbook, Order *order)
     }
 
     // Try to match orders and execute trades
-    match_orders(orderbook);
+    // match_orders(orderbook);
 }
 
 void print_orderbook(OrderBook *orderbook)

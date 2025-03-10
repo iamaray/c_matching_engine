@@ -23,10 +23,10 @@ typedef struct OrderHeap
 
 OrderHeap *createOrderHeap(int capacity, HeapType type);
 void swap(Order **a, Order **b);
-void minHeapify(OrderHeap *heap, int idx);
-void insertMinHeap(OrderHeap *heap, Order *key);
-Order *extractMin(OrderHeap *heap);
-Order *getMin(OrderHeap *heap);
+void heapify(OrderHeap *heap, int idx);
+void insertOrderHeap(OrderHeap *heap, Order *key);
+Order *extractTop(OrderHeap *heap);
+Order *getTop(OrderHeap *heap);
 void increaseHeapCapacity(OrderHeap *heap, int increment);
 
 #endif

@@ -42,7 +42,7 @@ void free_ordermap(OrderMap *map)
         while (entry)
         {
             MapEntry *next = entry->next;
-            // Note: We don't free the Order* as it's managed elsewhere
+            free_order(entry->value);
             free(entry);
             entry = next;
         }
