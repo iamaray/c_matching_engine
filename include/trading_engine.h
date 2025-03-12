@@ -30,8 +30,8 @@ int *trading_modify_order(
 /* orderbook CRUD */
 OrderBook *trading_create_ordebook(void);
 OrderBook *trading_read_orderbook(OrderBook *book);
-OrderBook *trading_add_order(OrderBook *book, Order *order);
-OrderBook *trading_free_orderbook(OrderBook *book);
+int *trading_add_order(OrderBook *book, Order *order);
+void *trading_free_orderbook(OrderBook *book);
 
 /* retrieve market data */
 double trading_get_best_bid(OrderBook *book);
