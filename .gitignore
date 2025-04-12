@@ -70,3 +70,5 @@ test-results/
 # Temporary files
 tmp/
 temp/ 
+
+*.ipynb
